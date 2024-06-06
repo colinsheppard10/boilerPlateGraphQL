@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { gql } from 'apollo-server';
-import { userResolver } from './resolvers';
-import { addUserMutation } from './mutations';
+import { storiesResolver } from './resolvers';
+import { addCommentMutation, addStoryMutation } from './mutations';
 
 // Load the schema from the schema.graphql file
 export const typeDefs = gql(readFileSync(resolve(__dirname, 'schema.graphql'), { encoding: 'utf8' }));
@@ -10,9 +10,10 @@ export const typeDefs = gql(readFileSync(resolve(__dirname, 'schema.graphql'), {
 // Define resolvers
 export const resolvers = {
   Query: {
-    users: userResolver,
+    stories: storiesResolver,
   },
   Mutation: {
-    addUser: addUserMutation
+    addStory: addStoryMutation,
+    addComment: addCommentMutation
   }
 };

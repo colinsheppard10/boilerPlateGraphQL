@@ -1,31 +1,40 @@
 import { Suspense, useState } from "react";
-import User from "./User";
 import graphql from "babel-plugin-relay/macro";
 import { useLazyLoadQuery } from "react-relay";
 import { AppQuery as AppQueryType } from "./__generated__/AppQuery.graphql";
-import AddUser from "./AddUser";
+import Story from "./Story";
+import AddStory from "./AddStory";
 
 const AppQuery = graphql`
   query AppQuery {
-    users {
+    stories {
       id
-      ...UserFragment
+      ...StoryFragment
     }
   }
 `;
 
 function App() {
   const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
-  const users = data.users;
+  const stories = data.stories;
+
+  const [activeStoryId, setActiveStoryId] = useState("");
 
   return (
     <Suspense fallback={<div>loading...</div>}>
       <ul>
-        {users.map((u) => {
-          return <User key={u.id} user={u} />;
+        {stories.map((s) => {
+          return (
+            <Story
+              key={s.id}
+              story={s}
+              activeStoryId={activeStoryId}
+              setActiveStoryId={setActiveStoryId}
+            />
+          );
         })}
       </ul>
-      <AddUser />
+      <AddStory />
     </Suspense>
   );
 }

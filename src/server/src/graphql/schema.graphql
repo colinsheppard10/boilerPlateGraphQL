@@ -1,15 +1,33 @@
 type Query {
-  users: [User!]!
+  stories: [Story!]!
 }
 
 type Mutation {
-  addUser(firstName: String!): User!
+  addStory(title: String!): Story!
+  addComment(storyId: ID!, content: String!): StoryCommentMutationResponse!
 }
 
-type User {
+type Story {
   id: ID!
-  firstName: String
-  lastName: String
-  email: String
-  admin: Boolean
+  title: String
+  comments: CommentsConnection
+}
+
+type CommentsConnection {
+  pageInfo: String
+  edges: [CommentsConnectionEdge]
+}
+
+type CommentsConnectionEdge {
+  node: Comment
+  cursor: String
+}
+
+type Comment {
+  id: ID!
+  content: String
+}
+
+type StoryCommentMutationResponse {
+  commentEdge: CommentsConnectionEdge
 }

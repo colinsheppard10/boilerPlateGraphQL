@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./User";
+import { Story } from "./Story";
+import { Comment } from "./Comment";
 
 const username = process.env.TYPE_ORM_USER_NAME;
 const host = process.env.TYPE_ORM_HOST;
@@ -17,7 +18,7 @@ export const AppDataSource = new DataSource({
   database: "postgres",
   synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [Story, Comment],
   subscribers: [],
   migrations: [],
   ssl: false,
